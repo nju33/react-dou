@@ -1,6 +1,6 @@
 import React from 'react';
 import {mount} from 'enzyme';
-import {DouProvider, Dou} from '..';
+import {DouProvider, DouFunctionsConsumer, Dou} from '..';
 import {Dialog} from '../dou.organism/dialog.atom';
 import {Message} from '../dou.organism/message.atom';
 import {Box} from '../dou.organism/box.atom';
@@ -14,14 +14,18 @@ describe('Dou', () => {
   test('', () => {
     const wrapper = mount(
       <DouProvider callback={noop}>
-        {({ask}) => {
-          return (
-            <>
-              <button id="button" onClick={ask('ask')}>ask</button>
-              <Dou />
-            </>
-          );
-        }}
+        <DouFunctionsConsumer>
+          {({ask}) => {
+            return (
+              <>
+                <button id="button" onClick={ask('ask')}>
+                  ask
+                </button>
+                <Dou />
+              </>
+            );
+          }}
+        </DouFunctionsConsumer>
       </DouProvider>,
     );
 
@@ -43,7 +47,7 @@ describe('Dou', () => {
       }),
     ).toHaveLength(1);
     wrapper.setState({message: '', hidden: true});
-    wrapper.find('#button').simulate('click')
+    wrapper.find('#button').simulate('click');
     expect(
       wrapper.find(Dialog).filterWhere(item => {
         return !item.prop('aria-hidden');

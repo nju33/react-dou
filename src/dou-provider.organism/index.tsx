@@ -1,13 +1,9 @@
 import React from 'react';
 import {css, InterpolationValue} from 'styled-components';
+import {FunctionsContext, DouFunctionsContext} from '../functions-context';
 import {Context} from '../context';
 
-export interface DouProviderFunctions {
-  ask(message: string): (ev?: React.MouseEvent<unknown>) => void;
-}
-
 export interface DouProviderProps {
-  children(functions: DouProviderFunctions): JSX.Element;
   callback(buttonIndex: number): void;
   userCSS?: InterpolationValue[];
 }
@@ -57,7 +53,7 @@ export class DouProvider extends React.Component<
     this.setState({hidden: true});
   }
 
-  ask: DouProviderFunctions['ask'] = message => ev => {
+  ask: DouFunctionsContext['ask'] = message => ev => {
     if (ev !== undefined) {
       ev.preventDefault();
     }
@@ -67,11 +63,11 @@ export class DouProvider extends React.Component<
 
   render() {
     return (
-      <Context.Provider value={this.state}>
-        {this.props.children({
-          ask: this.ask,
-        })}
-      </Context.Provider>
+      <FunctionsContext.Provider value={{ask: this.ask}}>
+        <Context.Provider value={this.state}>
+          {this.props.children}
+        </Context.Provider>
+      </FunctionsContext.Provider>
     );
   }
 }

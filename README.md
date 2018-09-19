@@ -16,16 +16,18 @@ yarn add react-dou react styled-components # @types/react @types/react-dom
 
 ```typescript
 (
-  <DouProvider callback={callback}>
-    {({ask}) => {
-      return (
-        <>
-          <button onClick={ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
-          <Dou />
-        </>
-      )
-    }}
-  </DouProvider>
+	<DouProvider callback={callback}>
+		<DouFunctionsConsumer>
+			{({ask}) => {
+				return (
+					<>
+						<button onClick={ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
+						<Dou />
+					</>
+				)
+			}}
+		</DouFunctionsConsumer>
+	</DouProvider>
 )
 ```
 

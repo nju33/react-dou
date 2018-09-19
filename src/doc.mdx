@@ -4,7 +4,7 @@ name: Dou
 ---
 
 import {Playground, PropsTable} from 'docz';
-import {DouProvider, Dou} from '.';
+import {DouProvider, DouFunctionsConsumer, Dou} from '.';
 import en from './locales/en';
 
 ## 日本語
@@ -21,14 +21,16 @@ import en from './locales/en';
 
 		return (
 			<DouProvider callback={callback}>
-				{({ask}) => {
-					return (
-						<>
-							<button onClick={ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
-							<Dou />
-						</>
-					)
-				}}
+				<DouFunctionsConsumer>
+					{({ask}) => {
+						return (
+							<>
+								<button onClick={ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
+								<Dou />
+							</>
+						)
+					}}
+				</DouFunctionsConsumer>
 			</DouProvider>
 		)
 	}}
@@ -48,14 +50,16 @@ import en from './locales/en';
 
 		return (
 			<DouProvider callback={callback}>
-				{({ask}) => {
-					return (
-						<>
-							<button onClick={ask('Eat hamburgers?')}>Eat hamburgers?</button>
-							<Dou locale={en} />
-						</>
-					)
-				}}
+				<DouFunctionsConsumer>
+					{({ask}) => {
+						return (
+							<>
+								<button onClick={ask('Eat hamburgers?')}>Eat hamburgers?</button>
+								<Dou locale={en} />
+							</>
+						)
+					}}
+				</DouFunctionsConsumer>
 			</DouProvider>
 		)
 	}}

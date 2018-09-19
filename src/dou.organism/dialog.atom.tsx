@@ -41,11 +41,11 @@ export const Dialog = styled(Flex)<DialogProps>`
     height: 100%;
     width: 100%;
     background: rgba(0, 0, 0, 0.3);
-    transition: opacity 0.4s linear;
+    transition: background 0.4s linear;
   }
 
   &[aria-hidden='true']:before {
-    opacity: 0;
+    background: rgba(0, 0, 0, 0);
     width: 0;
     height: 0;
     overflow: hidden;
@@ -53,19 +53,19 @@ export const Dialog = styled(Flex)<DialogProps>`
   }
 
   & > ${Box} {
-    transition: 0.4s linear 0.1s,
-      transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition: 0.4s linear,
+      transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0.1s;
     opacity: 1;
     z-index: 2;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+    transform-origin: center bottom;
   }
 
   &[aria-hidden='true'] > ${Box} {
-    transition: 0.4s linear,
-      transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+    transition: 0.4s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     opacity: 0;
     z-index: -2;
-    transform: translate3d(0, 100px, 0);
+    transform: translate3d(0, 50px, 0) rotateX(90deg) scale(.9);
   }
 
   ${getUserCSS};
