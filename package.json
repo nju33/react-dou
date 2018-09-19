@@ -1,0 +1,52 @@
+{
+  "name": "react-dou",
+  "description": "A React's yes-no modal component",
+  "version": "0.0.0",
+  "main": "dist/main/index.js",
+  "types": "dist/types/index.d.ts",
+  "module": "dist/module/index.js",
+  "source": "src/index.ts",
+  "repository": "nju33/react-dou",
+  "author": "nju33 <nju33.ki@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "react-component",
+    "dialog",
+    "yes-no"
+  ],
+  "scripts": {
+    "prepare": "yarn build",
+    "test": ":",
+    "dev": "parcel demo.html --port 3280",
+    "dev.doc": "docz dev --port 3209",
+    "build.main": "tsc -P tsconfig.main.json",
+    "build.module": "tsc -P tsconfig.module.json",
+    "build.types": "tsc -P tsconfig.types.json --emitDeclarationOnly",
+    "build.doc": "yarn docz build -d docs --base /react-dou/",
+    "build": "yarn build.main && yarn build.module && yarn build.types"
+  },
+  "peerDependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "styled-components": "^3.4.9"
+  },
+  "devDependencies": {
+    "@geekcojp/prettier-config": "^0.2.2",
+    "@geekcojp/tslint-config": "^0.2.1",
+    "@types/react": "^16.4.14",
+    "@types/react-dom": "^16.0.7",
+    "@types/styled-components": "^3.0.1",
+    "docz": "^0.11.2",
+    "prettier": "^1.14.2",
+    "renovate-config-nju33": "^0.0.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "polished": "^2.0.3"
+  }
+}
