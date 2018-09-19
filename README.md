@@ -14,6 +14,8 @@ yarn add react-dou react styled-components # @types/react @types/react-dom
 
 ## [Example](https://nju33.github.io/react-dou/)
 
+### by `DouFunctionsConsumer
+
 ```typescript
 (
 	<DouProvider callback={callback}>
@@ -29,6 +31,29 @@ yarn add react-dou react styled-components # @types/react @types/react-dom
 		</DouFunctionsConsumer>
 	</DouProvider>
 )
+
+```
+
+### by `withDou`
+
+```typescript
+interface Props {
+  text: string;
+}
+
+class IComponent extends React.Component<
+  Props & {dou: DouFunctionsContext},
+  {a: string}
+> {
+  render() {
+    return (
+      <button onClick={this.props.dou.ask('message')}>{this.props.text}</button>
+    );
+  }
+}
+
+const IComponentWithDou = withDou<Props>(IComponent);
+
 ```
 
 ## References

@@ -4,7 +4,7 @@ name: Dou
 ---
 
 import {Playground, PropsTable} from 'docz';
-import {DouProvider, DouFunctionsConsumer, Dou} from '.';
+import {DouProvider, DouFunctionsConsumer, Dou, withDou} from '.';
 import en from './locales/en';
 
 ## 日本語
@@ -36,7 +36,7 @@ import en from './locales/en';
 	}}
 </Playground>
 
-##　English
+## English
 
 <Playground>
 	{() => {
@@ -60,6 +60,35 @@ import en from './locales/en';
 						)
 					}}
 				</DouFunctionsConsumer>
+			</DouProvider>
+		)
+	}}
+</Playground>
+
+## withDou
+
+<Playground>
+	{() => {
+		const callback = buttonIndex => {
+			if (buttonIndex === 0) {
+				console.log('primary button clicked');
+			} else {
+				console.log('normal button clicked');
+			}
+		}
+
+		class Child extends React.Component {
+			render() {
+				return <button onClick={this.props.dou.ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
+			}
+		}
+
+		const ChildWithDou = withDou(Child);
+
+		return (
+			<DouProvider callback={callback}>
+				<ChildWithDou />
+				<Dou />
 			</DouProvider>
 		)
 	}}
