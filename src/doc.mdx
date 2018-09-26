@@ -33,7 +33,15 @@ import en from './locales/en';
 									<button onClick={ask('3', '帰りますか？')}>帰りますか？</button>
 								</p>
 								<p>
-									<button onClick={ask('4', '帰りたい')}>帰りたい</button>
+									<button onClick={ask('4', (
+										<div style={{width: '100%', textALign: 'left'}}>
+											<p>帰りたい</p>
+											<p>帰りたい</p>
+											<p>帰りたい</p>
+											<p>帰りたい</p>
+											<p>帰りたい</p>
+										</div>
+									))}>帰りたい</button>
 								</p>
 								<Dou keyName="2" />
 								<Dou keyName="4" items={[
