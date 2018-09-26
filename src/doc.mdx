@@ -4,19 +4,17 @@ name: Dou
 ---
 
 import {Playground, PropsTable} from 'docz';
+import {css} from 'styled-components';
 import {DouProvider, DouFunctionsConsumer, Dou, withDou} from '.';
+import {MdAccessible} from 'react-icons/md'
 import en from './locales/en';
 
 ## 日本語
 
 <Playground>
 	{() => {
-		const callback = buttonIndex => {
-			if (buttonIndex === 0) {
-				console.log('primary button clicked');
-			} else {
-				console.log('normal button clicked');
-			}
+		const callback = (keyName, buttonIndex) => {
+			console.log('keyName: ', keyName, 'buttonIndex: ', buttonIndex);
 		}
 
 		return (
@@ -25,12 +23,38 @@ import en from './locales/en';
 					{({ask}) => {
 						return (
 							<>
-								<button onClick={ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
-								<Dou />
+								<p>
+									<button onClick={ask('1', 'ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
+								</p>
+								<p>
+									<button onClick={ask('2', '映画見ますか？')}>映画見ますか？</button>
+								</p>
+								<p>
+									<button onClick={ask('3', '帰りますか？')}>帰りますか？</button>
+								</p>
+								<p>
+									<button onClick={ask('4', '帰りたい')}>帰りたい</button>
+								</p>
+								<Dou keyName="2" />
+								<Dou keyName="4" items={[
+									{label: '帰りたい1', primary: true},
+									{label: '帰りたい2', button: true, primary: true},
+									{label: '帰りたい3'},
+									{label: '帰りたい4', button: true},
+								]} />
 							</>
 						)
 					}}
 				</DouFunctionsConsumer>
+				<Dou keyName="1" onClickItem={buttonIndex => {
+					console.log('buttonIndex: ', buttonIndex);
+				}} />
+				<Dou keyName="3" items={[
+					{icon: <MdAccessible />, label: '帰1', primary: true},
+					{icon: <MdAccessible />, label: '帰2', button: true, primary: true},
+					{icon: <MdAccessible />, label: '帰3'},
+					{icon: <MdAccessible />, label: '帰4', button: true},
+				]} />
 			</DouProvider>
 		)
 	}}
@@ -54,8 +78,8 @@ import en from './locales/en';
 					{({ask}) => {
 						return (
 							<>
-								<button onClick={ask('Eat hamburgers?')}>Eat hamburgers?</button>
-								<Dou locale={en} />
+								<button onClick={ask('1', 'Eat hamburgers?')}>Eat hamburgers?</button>
+								<Dou keyName="1" locale={en} />
 							</>
 						)
 					}}
@@ -79,7 +103,7 @@ import en from './locales/en';
 
 		class Child extends React.Component {
 			render() {
-				return <button onClick={this.props.dou.ask('ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
+				return <button onClick={this.props.dou.ask('1', 'ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
 			}
 		}
 
@@ -88,7 +112,7 @@ import en from './locales/en';
 		return (
 			<DouProvider callback={callback}>
 				<ChildWithDou />
-				<Dou />
+				<Dou keyName="1" />
 			</DouProvider>
 		)
 	}}

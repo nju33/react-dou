@@ -3,8 +3,13 @@ import {Box} from './box.atom';
 import {Flex} from './flex.atom';
 
 // @ts-ignore
-const getUserCSS = ({userCSS = css``}: {userCSS: InterpolationValue[]} & any) =>
-  userCSS || css``;
+// const getUserCSS = ({
+//   userCSS = css``,
+// }: {userCSS: InterpolationValue[]} & any) => {
+//   return userCSS || css``;
+// };
+
+const getFontSize = (props: any) => props['data-font-size'];
 
 interface DialogProps {
   'aria-hidden': boolean;
@@ -65,8 +70,8 @@ export const Dialog = styled(Flex)<DialogProps>`
     transition: 0.4s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
     opacity: 0;
     z-index: -2;
-    transform: translate3d(0, 50px, 0) rotateX(90deg) scale(.9);
+    transform: translate3d(0, 50px, 0) rotateX(90deg) scale(0.9);
   }
 
-  ${getUserCSS};
+  font-size: ${getFontSize};
 `;

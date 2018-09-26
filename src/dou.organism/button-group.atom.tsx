@@ -4,4 +4,5 @@ import {Flex} from './flex.atom';
 export const ButtonGroup = styled(Flex)`
   height: 77px;
   padding: 0 17px;
+  font-size: 1em;
 `;
