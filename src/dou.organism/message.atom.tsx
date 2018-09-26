@@ -6,7 +6,7 @@ export const Message = styled(Flex)`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 21px;
+  font-size: 1.2em;
   margin-bottom: -17px;
   word-wrap: break-word;
   word-break: break-all;

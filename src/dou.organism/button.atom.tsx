@@ -4,21 +4,42 @@ export const Button = styled.button`
   height: 43px;
   flex: 1;
   border: none;
-  background: #ccc;
-  border-radius: 2px;
   cursor: pointer;
   outline: none;
   transition: .2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: pre;
 
-  &:first-child {
-    margin-right: 7.5px;
-  }
-
-  &:last-child {
+  &:not(:first-child) {
     margin-left: 7.5px;
   }
+  @media (min-width: 536px) {
+    &:not(:first-child) {
+      margin-left: 15px;
+    }
+  }
 
-  &:hover {
+  &.button {
+    background: #ccc;
+    border-radius: 2px;
+  }
+
+  &.button:hover {
     background: #b3b3b3;
+  }
+
+  &:not(.button) {
+    color: #515151;
+    background: transparent;
+  }
+
+  &:not(.button):hover {
+    color: #222;
+  }
+
+  & svg {
+    margin-right: .5em;
   }
 `;
