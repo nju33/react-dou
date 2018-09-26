@@ -1,5 +1,5 @@
 import React from 'react';
-import {Context, ContextValue} from '../context';
+import {Context, ContextValue, DouState} from '../context';
 import {Dialog} from './dialog.atom';
 import {Box} from './box.atom';
 import {Message} from './message.atom';
@@ -7,7 +7,6 @@ import {ButtonGroup} from './button-group.atom';
 import {Button} from './button.atom';
 import {PrimaryButton} from './primary-button.atom';
 import ja from '../locales/ja';
-import {DouProviderState} from '..';
 
 export interface DouItem {
   icon?: JSX.Element;
@@ -29,7 +28,7 @@ export interface DouProps {
   fontSize: string;
   douProviderState: ContextValue;
   primaryColor: string;
-  onClickItem(buttonIndex: number): any;
+  onClickItem(buttonIndex: number, sendingValue?: any): any;
 }
 
 class RealDou extends React.Component<DouProps> {
@@ -46,7 +45,7 @@ class RealDou extends React.Component<DouProps> {
     props.douProviderState._regist(props.keyName, props.onClickItem);
   }
 
-  private getOwnState(): DouProviderState {
+  private getOwnState(): DouState {
     const state = this.props.douProviderState.dialogs.get(this.props.keyName);
     if (state === undefined) {
       throw new Error(`not found key: ${this.props.keyName}`);
@@ -60,6 +59,7 @@ class RealDou extends React.Component<DouProps> {
 
     return (
       <Dialog
+        onClick={ownState.hide(this.props.keyName)}
         aria-hidden={ownState.hidden}
         data-font-size={this.props.fontSize}
       >

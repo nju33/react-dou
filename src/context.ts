@@ -3,11 +3,13 @@ import React from 'react';
 export interface DouState {
   message: string;
   hidden: boolean;
+  hide(keyName: string): (ev?: React.MouseEvent<unknown>) => void;
   eventFactory(
     buttonIndex: number,
   ): {
     onClick(ev?: React.MouseEvent<unknown>): void;
   };
+  payload: any;
 }
 
 export type Dialogs = Map<string, DouState>;

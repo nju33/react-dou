@@ -13,8 +13,8 @@ import en from './locales/en';
 
 <Playground>
 	{() => {
-		const callback = (keyName, buttonIndex) => {
-			console.log('keyName: ', keyName, 'buttonIndex: ', buttonIndex);
+		const callback = (keyName, buttonIndex, sendingValue) => {
+			console.log('keyName: ', keyName, 'buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
 		}
 
 		return (
@@ -24,13 +24,13 @@ import en from './locales/en';
 						return (
 							<>
 								<p>
-									<button onClick={ask('1', 'ハンバーガー食べますか？')}>ハンバーガー食べますか？</button>
+									<button onClick={ask('1', 'ハンバーガー食べますか？', {id: 123})}>ハンバーガー食べますか？</button>
 								</p>
 								<p>
-									<button onClick={ask('2', '映画見ますか？')}>映画見ますか？</button>
+									<button onClick={ask('2', '映画見ますか？', {value: 'hoge'})}>映画見ますか？</button>
 								</p>
 								<p>
-									<button onClick={ask('3', '帰りますか？')}>帰りますか？</button>
+									<button onClick={ask('3', '帰りますか？', {valid: true})}>帰りますか？</button>
 								</p>
 								<p>
 									<button onClick={ask('4', (
@@ -41,7 +41,7 @@ import en from './locales/en';
 											<p>帰りたい</p>
 											<p>帰りたい</p>
 										</div>
-									))}>帰りたい</button>
+									), 'foo')}>帰りたい</button>
 								</p>
 								<Dou keyName="2" />
 								<Dou keyName="4" items={[
@@ -54,8 +54,8 @@ import en from './locales/en';
 						)
 					}}
 				</DouFunctionsConsumer>
-				<Dou keyName="1" onClickItem={buttonIndex => {
-					console.log('buttonIndex: ', buttonIndex);
+				<Dou keyName="1" onClickItem={(buttonIndex, sendingValue) => {
+					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
 				}} />
 				<Dou keyName="3" items={[
 					{icon: <MdAccessible />, label: '帰1', primary: true},

@@ -5,18 +5,18 @@ import {Context, DouState, ContextValue} from '../context';
 import {DouProps} from '..';
 
 export interface DouProviderProps {
-  callback(keyName: string, buttonIndex: number): void;
+  callback(keyName: string, buttonIndex: number, sendingValue?: any): void;
 }
 
-export interface DouProviderState {
-  message: string;
-  hidden: boolean;
-  eventFactory(
-    buttonIndex: number,
-  ): {
-    onClick(ev?: React.MouseEvent<unknown>): void;
-  };
-}
+// export interface DouProviderState {
+//   message: string;
+//   hidden: boolean;
+//   eventFactory(
+//     buttonIndex: number,
+//   ): {
+//     onClick(ev?: React.MouseEvent<unknown>): void;
+//   };
+// }
 
 export class DouProvider extends React.Component<
   DouProviderProps,
@@ -38,17 +38,32 @@ export class DouProvider extends React.Component<
     return {
       message: '',
       hidden: true,
+      hide: passingKeyName => {
+        return ev => {
+          if (ev !== undefined) {
+            ev.preventDefault();
+          }
+
+          this.hide(passingKeyName);
+        };
+      },
       eventFactory: buttonIndex => ({
         onClick: ev => {
           if (ev !== undefined) {
             ev.preventDefault();
           }
 
-          this.props.callback(keyName, buttonIndex);
-          callback(buttonIndex);
+          const targetState = this.state.dialogs.get(keyName);
+          if (targetState === undefined) {
+            throw new Error(`not found keyName: ${keyName}`);
+          }
+
+          this.props.callback(keyName, buttonIndex, targetState.payload);
+          callback(buttonIndex, targetState.payload);
           this.hide(keyName);
         },
       }),
+      payload: undefined,
     };
   };
 
@@ -61,10 +76,11 @@ export class DouProvider extends React.Component<
     return targetState;
   }
 
-  setMessage(keyName: string, message: string) {
+  setMessage(keyName: string, message: string, sendingValue: any) {
     const targetState = this.getDialogState(keyName);
     targetState.message = message;
     targetState.hidden = false;
+    targetState.payload = sendingValue;
     this.state.dialogs.set(keyName, targetState);
     this.setState({
       dialogs: this.state.dialogs,
@@ -85,12 +101,12 @@ export class DouProvider extends React.Component<
     this.forceUpdate();
   };
 
-  ask: DouFunctionsContext['ask'] = (keyName, message) => ev => {
+  ask: DouFunctionsContext['ask'] = (keyName, message, sendingValue) => ev => {
     if (ev !== undefined) {
       ev.preventDefault();
     }
 
-    this.setMessage(keyName, message);
+    this.setMessage(keyName, message, sendingValue);
   };
 
   render() {

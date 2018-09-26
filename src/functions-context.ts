@@ -4,6 +4,7 @@ export interface DouFunctionsContext {
   ask(
     keyName: string,
     message: string,
+    sendingValue?: any,
   ): (ev?: React.MouseEvent<unknown>) => void;
 }
 
