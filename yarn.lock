@@ -851,7 +851,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-icons@^2.2.6":
+"@types/react-icons@2.2.6":
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/@types/react-icons/-/react-icons-2.2.6.tgz#02efde5582f4bbfe94e9dc277d48778289d66390"
   dependencies:
@@ -6623,7 +6623,7 @@ react-hot-loader@4.3.6:
     react-lifecycles-compat "^3.0.4"
     shallowequal "^1.0.2"
 
-react-icons@^3.1.0:
+react-icons@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.1.0.tgz#004bc8d8b64a5480cdebd86ccb72ba5930b0e434"
 
