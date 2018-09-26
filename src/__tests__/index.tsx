@@ -18,10 +18,10 @@ describe('Dou', () => {
           {({ask}) => {
             return (
               <>
-                <button id="button" onClick={ask('ask')}>
+                <button id="button" onClick={ask('1', 'ask')}>
                   ask
                 </button>
-                <Dou />
+                <Dou keyName="1" />
               </>
             );
           }}
@@ -40,19 +40,35 @@ describe('Dou', () => {
       }),
     ).toHaveLength(1);
 
-    wrapper.setState({message: 'test', hidden: false});
-    expect(
-      wrapper.find(Dialog).filterWhere(item => {
-        return !item.prop('aria-hidden');
-      }),
-    ).toHaveLength(1);
-    wrapper.setState({message: '', hidden: true});
-    wrapper.find('#button').simulate('click');
-    expect(
-      wrapper.find(Dialog).filterWhere(item => {
-        return !item.prop('aria-hidden');
-      }),
-    ).toHaveLength(1);
+    (() => {
+      const dialogs = (wrapper.state() as any).dialogs;
+      const targetState = dialogs.get('1');
+      targetState.message = 'test';
+      targetState.hidden = false;
+      dialogs.set('1', targetState);
+      wrapper.setState({dialogs});
+
+      expect(
+        wrapper.find(Dialog).filterWhere(item => {
+          return !item.prop('aria-hidden');
+        }),
+      ).toHaveLength(1);
+    })();
+
+    (() => {
+      const dialogs = (wrapper.state() as any).dialogs;
+      const targetState = dialogs.get('1');
+      targetState.message = '';
+      targetState.hidden = true;
+      dialogs.set('1', targetState);
+      wrapper.setState({dialogs});
+      wrapper.find('#button').simulate('click');
+      expect(
+        wrapper.find(Dialog).filterWhere(item => {
+          return !item.prop('aria-hidden');
+        }),
+      ).toHaveLength(1);
+    })();
 
     // 「はい」
     wrapper.find(PrimaryButton).simulate('click');
