@@ -20,7 +20,7 @@ export interface DouPassingProps {
   items?: DouItem[] | string[];
   fontSize?: string;
   primaryColor?: string;
-  onClickItem?(buttonIndex: number): any;
+  onClickItem?(buttonIndex: number, sendingValue?: any): any;
 }
 export interface DouProps {
   keyName: string;
