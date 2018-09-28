@@ -2922,13 +2922,13 @@ docz-core@^0.12.2:
     ws "^6.0.0"
     yargs "^12.0.2"
 
-docz-theme-default@^0.12.3:
-  version "0.12.3"
-  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.12.3.tgz#a4f7497f00d884edbf004ecf4e2e8654c5eced2d"
+docz-theme-default@^0.12.4:
+  version "0.12.4"
+  resolved "https://registry.yarnpkg.com/docz-theme-default/-/docz-theme-default-0.12.4.tgz#aec2615d4ed311f88aecb889f0a3d9526adb19dc"
   dependencies:
     codemirror "^5.40.0"
     copy-text-to-clipboard "^1.0.4"
-    docz "^0.12.3"
+    docz "^0.12.4"
     emotion "^9.2.9"
     emotion-theming "^9.2.9"
     facepaint "^1.2.1"
@@ -2979,9 +2979,9 @@ docz-utils@^0.12.2:
     unist-util-is "^2.1.2"
     unist-util-visit "^1.4.0"
 
-docz@0.12.3, docz@^0.12.3:
-  version "0.12.3"
-  resolved "https://registry.yarnpkg.com/docz/-/docz-0.12.3.tgz#702698a3ab371df19ffe679b4235961c8443171d"
+docz@0.12.4, docz@^0.12.4:
+  version "0.12.4"
+  resolved "https://registry.yarnpkg.com/docz/-/docz-0.12.4.tgz#2773d39d279ec231d93a3b8f1bf708b860ba45e3"
   dependencies:
     "@mdx-js/tag" "^0.15.0"
     "@sindresorhus/slugify" "^0.3.0"
@@ -2990,7 +2990,7 @@ docz@0.12.3, docz@^0.12.3:
     create-react-context "^0.2.3"
     deepmerge "^2.1.1"
     docz-core "^0.12.2"
-    docz-theme-default "^0.12.3"
+    docz-theme-default "^0.12.4"
     lodash "^4.17.11"
     prop-types "^15.6.2"
     react "^16.5.2"
