@@ -36,7 +36,7 @@
     "@geekcojp/prettier-config": "0.3.0",
     "@geekcojp/tslint-config": "0.2.1",
     "@types/enzyme": "3.1.14",
-    "@types/jest": "23.3.2",
+    "@types/jest": "23.3.3",
     "@types/react": "16.4.14",
     "@types/react-icons": "2.2.6",
     "@types/styled-components": "3.0.1",
