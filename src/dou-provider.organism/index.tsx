@@ -76,7 +76,11 @@ export class DouProvider extends React.Component<
     return targetState;
   }
 
-  setMessage(keyName: string, message: string, sendingValue: any) {
+  setMessage(
+    keyName: string,
+    message: string | JSX.Element,
+    sendingValue: any,
+  ) {
     const targetState = this.getDialogState(keyName);
     targetState.message = message;
     targetState.hidden = false;

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export interface DouState {
-  message: string;
+  message: string | JSX.Element;
   hidden: boolean;
   hide(keyName: string): (ev?: React.MouseEvent<unknown>) => void;
   eventFactory(
