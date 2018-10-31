@@ -9,7 +9,7 @@
 ## Install
 
 ```bash
-yarn add react-dou react styled-components # @types/react @types/react-dom
+yarn add react-dou react react-dom styled-components # @types/react @types/react-dom @types/styled-components
 ```
 
 ## [Example](https://nju33.github.io/react-dou/)
