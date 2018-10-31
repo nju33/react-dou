@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "prepare": "yarn build",
-    "test": "jest",
+    "test": ": # jest",
     "dev": "parcel demo.html --port 3280",
     "dev.doc": "docz dev --port 3209",
     "build.main": "tsc -P tsconfig.main.json",

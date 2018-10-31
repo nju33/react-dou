@@ -105,7 +105,6 @@ class RealDou extends React.Component<DouProps> {
     React.memo(props => {
       let Background = componentMap.get('Background');
       if (this.hasPropComponent('Background')) {
-        console.log('####', this.hasPropComponent('Background'))
         Background = this.getPropComponent('Background');
       }
 
@@ -145,7 +144,6 @@ class RealDou extends React.Component<DouProps> {
   Button: React.SFC<{
     primary: boolean;
     'data-color'?: string;
-    key: string;
     className: string;
     onClick: Function;
   }> =
@@ -159,7 +157,6 @@ class RealDou extends React.Component<DouProps> {
 
         return (
           <PrimaryButton
-            key={props.key}
             className={props.className}
             onClick={props.onClick}
             data-color={props['data-color']}
@@ -176,7 +173,6 @@ class RealDou extends React.Component<DouProps> {
 
       return (
         <Button
-          key={props.key}
           className={props.className}
           onClick={props.onClick}
         >
@@ -207,7 +203,6 @@ class RealDou extends React.Component<DouProps> {
             return (
               <this.Button
                 primary={Boolean(item.primary)}
-                key={item.label}
                 className={className.join(' ')}
                 data-color={this.props.primaryColor}
                 onClick={onClick}
