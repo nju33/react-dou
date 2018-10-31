@@ -1,5 +1,4 @@
 import styled, {InterpolationValue} from 'styled-components';
-import {Box} from './box.atom';
 import {Flex} from './flex.atom';
 
 const getFontSize = (props: any) => props['data-font-size'];
@@ -49,22 +48,6 @@ export const Background = styled(Flex)<BackgroundProps>`
     overflow: hidden;
     z-index: -1;
   }
-
-  // & > ${Box} {
-  //   transition: 0.4s linear,
-  //     transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) 0.1s;
-  //   opacity: 1;
-  //   z-index: 2;
-  //   transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
-  //   transform-origin: center bottom;
-  // }
-
-  // &[aria-hidden='true'] > ${Box} {
-  //   transition: 0.4s linear, transform 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
-  //   opacity: 0;
-  //   z-index: -2;
-  //   transform: translate3d(0, 50px, 0) rotateX(90deg) scale(0.9);
-  // }
 
   font-size: ${getFontSize};
 `;

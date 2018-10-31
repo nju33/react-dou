@@ -197,7 +197,7 @@ class RealDou extends React.Component<DouProps> {
   }> =
     // @ts-ignore
     React.memo(props => {
-      if (props.items === undefined) {
+      if (props.items.length === 0) {
         return null;
       }
 
