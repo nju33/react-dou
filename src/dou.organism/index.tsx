@@ -245,70 +245,72 @@ class RealDou extends React.Component<DouProps> {
   }
 }
 
-export const Dou: React.SFC<DouPassingProps> = props => {
-  let items: DouItem[];
-  if (props.items === undefined) {
-    items = ja.map((label, i) => {
-      return {
-        label,
-        primary: i === 0,
-        button: true,
-      };
-    });
-  } else if (typeof props.items[0] === 'string') {
-    items = (props.items as string[]).map((label, i) => {
-      return {
-        label,
-        primary: i === 0,
-        button: true,
-      };
-    });
-  } else {
-    items = props.items as DouItem[];
+// export const Dou: React.SFC<DouPassingProps> = props => {
+export class Dou extends React.PureComponent<DouPassingProps> {
+  static resetGlobalComponents(): void {
+    componentMap.set('Background', OriginalBackground);
+    componentMap.set('Box', OriginalBox);
+    componentMap.set('Message', OriginalMessage);
+    componentMap.set('Button', OriginalButton);
+    componentMap.set('PrimaryButton', OriginalPrimaryButton);
   }
 
-  return (
-    <Context.Consumer>
-      {state => {
-        return (
-          <RealDou
-            {...{...RealDou.defaultProps, ...props}}
-            items={items}
-            douProviderState={state}
-          />
-        );
-      }}
-    </Context.Consumer>
-  );
-};
-Object.defineProperties(Dou, {
-  resetGlobalComponents: {
-    value: () => {
-      componentMap.set('Background', OriginalBackground);
-      componentMap.set('Box', OriginalBox);
-      componentMap.set('Message', OriginalMessage);
-      componentMap.set('Button', OriginalButton);
-      componentMap.set('PrimaryButton', OriginalPrimaryButton);
-    },
-  },
-  Box: {
-    set(CustomizedBox: typeof OriginalBox) {
-      componentMap.set('Box', CustomizedBox);
-    },
-  },
-  Message: {
-    set(CustomizedMessage: typeof OriginalMessage) {
-      componentMap.set('Message', CustomizedMessage);
-    },
-  },
-  Button: {
-    set(CustomizedButton: typeof OriginalButton) {
-      componentMap.set('Button', CustomizedButton);
-    },
-  },
-  PrimaryButton: {
-    set(CustomizedPrimaryButton: typeof OriginalPrimaryButton) {
-      componentMap.set('PrimaryButton', CustomizedPrimaryButton);
-    },
-  },
-});
+  static set Background(CustomizedBackground: typeof OriginalBackground) {
+    componentMap.set('Background', CustomizedBackground);
+  }
+
+  static set Box(CustomizedBox: typeof OriginalBox) {
+    componentMap.set('Box', CustomizedBox);
+  }
+
+  static set Message(CustomizedMessage: typeof OriginalMessage) {
+    componentMap.set('Message', CustomizedMessage);
+  }
+
+  static set Button(CustomizedButton: typeof OriginalButton) {
+    componentMap.set('Button', CustomizedButton);
+  }
+
+  static set PrimaryButton(
+    CustomizedPrimaryButton: typeof OriginalPrimaryButton,
+  ) {
+    componentMap.set('PrimaryButton', CustomizedPrimaryButton);
+  }
+
+  render() {
+    let items: DouItem[];
+    if (this.props.items === undefined) {
+      items = ja.map((label, i) => {
+        return {
+          label,
+          primary: i === 0,
+          button: true,
+        };
+      });
+    } else if (typeof this.props.items[0] === 'string') {
+      items = (this.props.items as string[]).map((label, i) => {
+        return {
+          label,
+          primary: i === 0,
+          button: true,
+        };
+      });
+    } else {
+      items = this.props.items as DouItem[];
+    }
+
+    return (
+      <Context.Consumer>
+        {state => {
+          return (
+            <RealDou
+              {...{...RealDou.defaultProps, ...this.props}}
+              items={items}
+              douProviderState={state}
+            />
+          );
+        }}
+      </Context.Consumer>
+    );
+  }
+}
