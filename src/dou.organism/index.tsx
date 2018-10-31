@@ -1,4 +1,5 @@
 import React from 'react';
+import {createPortal} from 'react-dom';
 import {Context, ContextValue, DouState} from '../context';
 import {Background as OriginalBackground} from './background.atom';
 import {Box as OriginalBox} from './box.atom';
@@ -37,7 +38,7 @@ export interface DouPassingProps {
   fontSize?: string;
   primaryColor?: string;
   onClickItem?(buttonIndex: number, sendingValue?: any): any;
-  components?: Partial<CustomizableComponent>,
+  components?: Partial<CustomizableComponent>;
 }
 export interface DouProps {
   keyName: string;
@@ -46,7 +47,7 @@ export interface DouProps {
   douProviderState: ContextValue;
   primaryColor: string;
   onClickItem(buttonIndex: number, sendingValue?: any): any;
-  components?: Partial<CustomizableComponent>,
+  components?: Partial<CustomizableComponent>;
 }
 
 class RealDou extends React.Component<DouProps> {
@@ -57,10 +58,22 @@ class RealDou extends React.Component<DouProps> {
     onClickItem() {},
   };
 
+  case: HTMLDivElement;
+
   constructor(props: DouProps) {
     super(props);
 
+    this.case = document.createElement('div');
+    this.case.setAttribute('data-dou-key', props.keyName);
+    document.body.appendChild(this.case);
+
     props.douProviderState._regist(props.keyName, props.onClickItem);
+  }
+
+  componentWillUnmount() {
+    if (this.case !== null && this.case.parentNode !== null) {
+      this.case.parentNode.removeChild(this.case);
+    }
   }
 
   private getOwnState(): DouState {
@@ -172,10 +185,7 @@ class RealDou extends React.Component<DouProps> {
       }
 
       return (
-        <Button
-          className={props.className}
-          onClick={props.onClick}
-        >
+        <Button className={props.className} onClick={props.onClick}>
           {props.children}
         </Button>
       );
@@ -219,7 +229,7 @@ class RealDou extends React.Component<DouProps> {
   render() {
     const ownState = this.getOwnState();
 
-    return (
+    return createPortal(
       <this.Background
         onClick={ownState.hide(this.props.keyName)}
         aria-hidden={ownState.hidden}
@@ -229,7 +239,8 @@ class RealDou extends React.Component<DouProps> {
           <this.Message>{ownState.message}</this.Message>
           <this.ButtonGroup ownState={ownState} items={this.props.items} />
         </this.Box>
-      </this.Background>
+      </this.Background>,
+      this.case,
     );
   }
 }
@@ -278,7 +289,7 @@ Object.defineProperties(Dou, {
       componentMap.set('Message', OriginalMessage);
       componentMap.set('Button', OriginalButton);
       componentMap.set('PrimaryButton', OriginalPrimaryButton);
-    }
+    },
   },
   Box: {
     set(CustomizedBox: typeof OriginalBox) {
