@@ -1,13 +1,19 @@
 import React from 'react';
 import {Context, ContextValue, DouState} from '../context';
-import {Dialog} from './dialog.atom';
-import {Box} from './box.atom';
-import {Message} from './message.atom';
+import {Background as OriginalBackground} from './background.atom';
+import {Box as OriginalBox} from './box.atom';
+import {Message as OriginalMessage} from './message.atom';
 import {ButtonGroup} from './button-group.atom';
-import {Button} from './button.atom';
-import {PrimaryButton} from './primary-button.atom';
+import {Button as OriginalButton} from './button.atom';
+import {PrimaryButton as OriginalPrimaryButton} from './primary-button.atom';
 import ja from '../locales/ja';
 
+const componentMap = new Map();
+componentMap.set('Background', OriginalBackground);
+componentMap.set('Box', OriginalBox);
+componentMap.set('Message', OriginalMessage);
+componentMap.set('Button', OriginalButton);
+componentMap.set('PrimaryButton', OriginalPrimaryButton);
 export interface DouItem {
   icon?: JSX.Element;
   primary?: boolean;
@@ -15,9 +21,11 @@ export interface DouItem {
   button: boolean;
 }
 
+export type DouItems = DouItem[] | string[];
+
 export interface DouPassingProps {
   keyName: string;
-  items?: DouItem[] | string[];
+  items?: DouItems;
   fontSize?: string;
   primaryColor?: string;
   onClickItem?(buttonIndex: number, sendingValue?: any): any;
@@ -54,52 +62,129 @@ class RealDou extends React.Component<DouProps> {
     return state;
   }
 
+  Background: React.SFC<{
+    onClick: Function;
+    'aria-hidden': boolean;
+    'data-font-size': string;
+  }> =
+    // @ts-ignore
+    React.memo(props => {
+      const Box = componentMap.get('Background');
+
+      return (
+        <Box
+          onClick={props.onClick}
+          aria-hidden={props['aria-hidden']}
+          data-font-size={props['data-font-size']}
+        >
+          {props.children}
+        </Box>
+      );
+    });
+
+  Box: React.SFC =
+    // @ts-ignore
+    React.memo(props => {
+      const Box = componentMap.get('Box');
+
+      return <Box>{props.children}</Box>;
+    });
+
+  Message: React.SFC =
+    // @ts-ignore
+    React.memo(props => {
+      const Message = componentMap.get('Message');
+
+      return <Message>{props.children}</Message>;
+    });
+
+  Button: React.SFC<{
+    primary: boolean;
+    'data-color'?: string;
+    key: string;
+    className: string;
+    onClick: Function;
+  }> =
+    // @ts-ignore
+    React.memo(props => {
+      if (props.primary) {
+        const PrimaryButton = componentMap.get('PrimaryButton');
+
+        return (
+          <PrimaryButton
+            key={props.key}
+            className={props.className}
+            onClick={props.onClick}
+            data-color={props['data-color']}
+          >
+            {props.children}
+          </PrimaryButton>
+        );
+      }
+
+      const Button = componentMap.get('Button');
+
+      return (
+        <Button
+          key={props.key}
+          className={props.className}
+          onClick={props.onClick}
+        >
+          {props.children}
+        </Button>
+      );
+    });
+
+  ButtonGroup: React.SFC<{
+    ownState: DouState;
+    items?: DouItems;
+  }> =
+    // @ts-ignore
+    React.memo(props => {
+      if (props.items === undefined) {
+        return null;
+      }
+
+      return (
+        <ButtonGroup>
+          {this.props.items.map((item, i) => {
+            const {onClick} = props.ownState.eventFactory(i);
+            const className = [];
+            if (item.button) {
+              className.push('button');
+            }
+
+            return (
+              <this.Button
+                primary={Boolean(item.primary)}
+                key={item.label}
+                className={className.join(' ')}
+                data-color={this.props.primaryColor}
+                onClick={onClick}
+              >
+                {item.icon === undefined ? null : item.icon}
+                {item.label}
+              </this.Button>
+            );
+          })}
+        </ButtonGroup>
+      );
+    });
+
   render() {
     const ownState = this.getOwnState();
 
     return (
-      <Dialog
+      <this.Background
         onClick={ownState.hide(this.props.keyName)}
         aria-hidden={ownState.hidden}
         data-font-size={this.props.fontSize}
       >
-        <Box>
-          <Message>{ownState.message}</Message>
-          <ButtonGroup>
-            {this.props.items.map((item, i) => {
-              const {onClick} = ownState.eventFactory(i);
-              const className = [];
-              if (item.button) {
-                className.push('button');
-              }
-
-              if (Boolean(item.primary)) {
-                return (
-                  <PrimaryButton
-                    key={item.label}
-                    className={className.join(' ')}
-                    data-color={this.props.primaryColor}
-                    onClick={onClick}
-                  >
-                    {item.icon === undefined ? null : item.icon}
-                    {item.label}
-                  </PrimaryButton>
-                );
-              }
-              return (
-                <Button
-                  key={item.label}
-                  className={className.join(' ')}
-                  onClick={onClick}
-                >
-                  {item.icon === undefined ? null : item.icon}
-                  {item.label}
-                </Button>
-              );
-            })}
-          </ButtonGroup>
-        </Box>
-      </Dialog>
+        <this.Box>
+          <this.Message>{ownState.message}</this.Message>
+          <this.ButtonGroup ownState={ownState} items={this.props.items} />
+        </this.Box>
+      </this.Background>
     );
   }
 }
@@ -140,3 +225,34 @@ export const Dou: React.SFC<DouPassingProps> = props => {
     </Context.Consumer>
   );
 };
+Object.defineProperties(Dou, {
+  resetComponents: {
+    value: () => {
+      componentMap.set('Background', OriginalBackground);
+      componentMap.set('Box', OriginalBox);
+      componentMap.set('Message', OriginalMessage);
+      componentMap.set('Button', OriginalButton);
+      componentMap.set('PrimaryButton', OriginalPrimaryButton);
+    }
+  },
+  Box: {
+    set(CustomizedBox: typeof OriginalBox) {
+      componentMap.set('Box', CustomizedBox);
+    },
+  },
+  Message: {
+    set(CustomizedMessage: typeof OriginalMessage) {
+      componentMap.set('Message', CustomizedMessage);
+    },
+  },
+  Button: {
+    set(CustomizedButton: typeof OriginalButton) {
+      componentMap.set('Button', CustomizedButton);
+    },
+  },
+  PrimaryButton: {
+    set(CustomizedPrimaryButton: typeof OriginalPrimaryButton) {
+      componentMap.set('PrimaryButton', CustomizedPrimaryButton);
+    },
+  },
+});

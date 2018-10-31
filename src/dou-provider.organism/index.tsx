@@ -1,22 +1,11 @@
 import React from 'react';
-// import {css, InterpolationValue} from 'styled-components';
 import {FunctionsContext, DouFunctionsContext} from '../functions-context';
 import {Context, DouState, ContextValue} from '../context';
 import {DouProps} from '..';
 
 export interface DouProviderProps {
-  callback(keyName: string, buttonIndex: number, sendingValue?: any): void;
+  callback?(keyName: string, buttonIndex: number, sendingValue?: any): void;
 }
-
-// export interface DouProviderState {
-//   message: string;
-//   hidden: boolean;
-//   eventFactory(
-//     buttonIndex: number,
-//   ): {
-//     onClick(ev?: React.MouseEvent<unknown>): void;
-//   };
-// }
 
 export class DouProvider extends React.Component<
   DouProviderProps,
@@ -58,7 +47,9 @@ export class DouProvider extends React.Component<
             throw new Error(`not found keyName: ${keyName}`);
           }
 
-          this.props.callback(keyName, buttonIndex, targetState.payload);
+          if (this.props.callback !== undefined) {
+            this.props.callback(keyName, buttonIndex, targetState.payload);
+          }
           callback(buttonIndex, targetState.payload);
           this.hide(keyName);
         },

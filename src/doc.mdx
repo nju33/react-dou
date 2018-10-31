@@ -4,8 +4,8 @@ name: Dou
 ---
 
 import {Playground, PropsTable} from 'docz';
-import {css} from 'styled-components';
-import {DouProvider, DouFunctionsConsumer, Dou, withDou} from '.';
+import styled, {css} from 'styled-components';
+import {DouProvider, DouFunctionsConsumer, Dou, withDou, Box} from '.';
 import {MdAccessible} from 'react-icons/md'
 import en from './locales/en';
 
@@ -63,6 +63,32 @@ import en from './locales/en';
 					{icon: <MdAccessible />, label: '帰3'},
 					{icon: <MdAccessible />, label: '帰4', button: true},
 				]} />
+			</DouProvider>
+		)
+	}}
+</Playground>
+
+<Playground>
+	{() => {
+		Dou.Box = styled(Box)`
+			background: #393939;
+			color: #fff;
+			transition: none !important;
+		`;
+
+		return (
+			<DouProvider>
+				<p>
+					<DouFunctionsConsumer>
+						{({ask}) => {
+							return <button onClick={ask('foo?', 'foo?')}>foo?</button>
+						}}
+					</DouFunctionsConsumer>
+				</p>
+
+				<Dou keyName="foo?" onClickItem={(buttonIndex, sendingValue) => {
+					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
+				}} />
 			</DouProvider>
 		)
 	}}

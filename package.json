@@ -29,32 +29,32 @@
     "build": "yarn build.main && yarn build.module && yarn build.types"
   },
   "peerDependencies": {
-    "react": "^16.5.2",
-    "styled-components": "^3.4.9"
+    "react": "^16.6.0",
+    "styled-components": "^4.0.0"
   },
   "devDependencies": {
     "@geekcojp/prettier-config": "0.3.0",
     "@geekcojp/tslint-config": "0.2.1",
     "@types/enzyme": "3.1.14",
-    "@types/jest": "23.3.8",
-    "@types/react": "16.4.14",
+    "@types/jest": "23.3.9",
+    "@types/react": "16.4.18",
     "@types/react-icons": "2.2.6",
-    "@types/styled-components": "3.0.2",
-    "docz": "0.12.5",
+    "@types/styled-components": "4.0.3",
+    "docz": "0.12.7",
     "enzyme": "3.7.0",
     "enzyme-adapter-react-16": "1.6.0",
     "jest": "23.6.0",
     "prettier": "1.14.3",
-    "react": "16.5.2",
+    "react": "16.6.0",
     "react-icons": "3.2.2",
     "renovate-config-nju33": "0.0.1",
-    "styled-components": "3.4.10",
+    "styled-components": "4.0.3",
     "ts-jest": "23.10.4",
     "ts-node": "7.0.1",
     "tslint": "5.11.0",
-    "typescript": "3.1.3"
+    "typescript": "3.1.4"
   },
   "dependencies": {
-    "polished": "^2.0.3"
+    "polished": "^2.3.0"
   }
 }
