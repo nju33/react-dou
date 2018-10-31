@@ -23,12 +23,21 @@ export interface DouItem {
 
 export type DouItems = DouItem[] | string[];
 
+export interface CustomizableComponent {
+  Background: typeof OriginalBackground;
+  Box: typeof OriginalBox;
+  Message: typeof OriginalMessage;
+  Button: typeof OriginalButton;
+  PrimaryButton: typeof OriginalPrimaryButton;
+}
+
 export interface DouPassingProps {
   keyName: string;
   items?: DouItems;
   fontSize?: string;
   primaryColor?: string;
   onClickItem?(buttonIndex: number, sendingValue?: any): any;
+  components?: Partial<CustomizableComponent>,
 }
 export interface DouProps {
   keyName: string;
@@ -37,6 +46,7 @@ export interface DouProps {
   douProviderState: ContextValue;
   primaryColor: string;
   onClickItem(buttonIndex: number, sendingValue?: any): any;
+  components?: Partial<CustomizableComponent>,
 }
 
 class RealDou extends React.Component<DouProps> {
@@ -62,6 +72,30 @@ class RealDou extends React.Component<DouProps> {
     return state;
   }
 
+  private hasPropComponent(name: keyof CustomizableComponent) {
+    if (this.props.components === undefined) {
+      return false;
+    }
+
+    if (this.props.components[name] === undefined) {
+      return false;
+    }
+
+    return true;
+  }
+
+  private getPropComponent(name: keyof CustomizableComponent) {
+    if (this.props.components === undefined) {
+      throw new Error('components is empty');
+    }
+
+    if (this.props.components[name] === undefined) {
+      throw new Error('components[name] is empty');
+    }
+
+    return this.props.components[name];
+  }
+
   Background: React.SFC<{
     onClick: Function;
     'aria-hidden': boolean;
@@ -69,23 +103,30 @@ class RealDou extends React.Component<DouProps> {
   }> =
     // @ts-ignore
     React.memo(props => {
-      const Box = componentMap.get('Background');
+      let Background = componentMap.get('Background');
+      if (this.hasPropComponent('Background')) {
+        console.log('####', this.hasPropComponent('Background'))
+        Background = this.getPropComponent('Background');
+      }
 
       return (
-        <Box
+        <Background
           onClick={props.onClick}
           aria-hidden={props['aria-hidden']}
           data-font-size={props['data-font-size']}
         >
           {props.children}
-        </Box>
+        </Background>
       );
     });
 
   Box: React.SFC =
     // @ts-ignore
     React.memo(props => {
-      const Box = componentMap.get('Box');
+      let Box = componentMap.get('Box');
+      if (this.hasPropComponent('Box')) {
+        Box = this.getPropComponent('Box');
+      }
 
       return <Box>{props.children}</Box>;
     });
@@ -93,7 +134,10 @@ class RealDou extends React.Component<DouProps> {
   Message: React.SFC =
     // @ts-ignore
     React.memo(props => {
-      const Message = componentMap.get('Message');
+      let Message = componentMap.get('Message');
+      if (this.hasPropComponent('Message')) {
+        Message = this.getPropComponent('Message');
+      }
 
       return <Message>{props.children}</Message>;
     });
@@ -108,7 +152,10 @@ class RealDou extends React.Component<DouProps> {
     // @ts-ignore
     React.memo(props => {
       if (props.primary) {
-        const PrimaryButton = componentMap.get('PrimaryButton');
+        let PrimaryButton = componentMap.get('PrimaryButton');
+        if (this.hasPropComponent('PrimaryButton')) {
+          PrimaryButton = this.getPropComponent('PrimaryButton');
+        }
 
         return (
           <PrimaryButton
@@ -122,7 +169,10 @@ class RealDou extends React.Component<DouProps> {
         );
       }
 
-      const Button = componentMap.get('Button');
+      let Button = componentMap.get('Button');
+      if (this.hasPropComponent('Button')) {
+        Button = this.getPropComponent('Button');
+      }
 
       return (
         <Button
@@ -226,7 +276,7 @@ export const Dou: React.SFC<DouPassingProps> = props => {
   );
 };
 Object.defineProperties(Dou, {
-  resetComponents: {
+  resetGlobalComponents: {
     value: () => {
       componentMap.set('Background', OriginalBackground);
       componentMap.set('Box', OriginalBox);

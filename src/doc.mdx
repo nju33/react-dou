@@ -5,7 +5,7 @@ name: Dou
 
 import {Playground, PropsTable} from 'docz';
 import styled, {css} from 'styled-components';
-import {DouProvider, DouFunctionsConsumer, Dou, withDou, Box} from '.';
+import {DouProvider, DouFunctionsConsumer, Dou, withDou, Background, Box} from '.';
 import {MdAccessible} from 'react-icons/md'
 import en from './locales/en';
 
@@ -88,6 +88,39 @@ import en from './locales/en';
 
 				<Dou keyName="foo?" onClickItem={(buttonIndex, sendingValue) => {
 					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
+				}} />
+			</DouProvider>
+		)
+	}}
+</Playground>
+
+<Playground>
+	{() => {
+		Dou.resetGlobalComponents();
+
+		return (
+			<DouProvider>
+				<p>
+					<DouFunctionsConsumer>
+						{({ask}) => {
+							return <button onClick={ask('bar?', 'bar?')}>bar?</button>
+						}}
+					</DouFunctionsConsumer>
+				</p>
+
+				<Dou keyName="bar?" onClickItem={(buttonIndex, sendingValue) => {
+					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
+				}} components={{
+					Background: styled(Background)`
+						transition: none !important;
+
+						&:before {
+							transition: none !important;
+						}
+					`,
+					Box: styled(Box)`
+						transition: none !important;
+					`
 				}} />
 			</DouProvider>
 		)
