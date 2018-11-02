@@ -42,7 +42,7 @@
     "@types/react-dom": "16.0.9",
     "@types/react-icons": "2.2.6",
     "@types/styled-components": "4.0.3",
-    "docz": "0.12.7",
+    "docz": "0.12.9",
     "enzyme": "3.7.0",
     "enzyme-adapter-react-16": "1.6.0",
     "jest": "23.6.0",
