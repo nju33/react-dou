@@ -1,20 +1,14 @@
 import React from 'react';
 import {createPortal} from 'react-dom';
-import {Context, ContextValue, DouState} from '../context';
+import {ContextValue, DouState, Context} from '../context';
 import {Background as OriginalBackground} from './background.atom';
 import {Box as OriginalBox} from './box.atom';
 import {Message as OriginalMessage} from './message.atom';
-import {ButtonGroup} from './button-group.atom';
+import {ButtonGroup as OriginalButtonGroup} from './button-group.atom';
 import {Button as OriginalButton} from './button.atom';
 import {PrimaryButton as OriginalPrimaryButton} from './primary-button.atom';
-import ja from '../locales/ja';
+import * as customizableComponents from '../customizable-components';
 
-const componentMap = new Map();
-componentMap.set('Background', OriginalBackground);
-componentMap.set('Box', OriginalBox);
-componentMap.set('Message', OriginalMessage);
-componentMap.set('Button', OriginalButton);
-componentMap.set('PrimaryButton', OriginalPrimaryButton);
 export interface DouItem {
   icon?: JSX.Element;
   primary?: boolean;
@@ -24,21 +18,12 @@ export interface DouItem {
 
 export type DouItems = DouItem[] | string[];
 
-export interface CustomizableComponent {
-  Background: typeof OriginalBackground;
-  Box: typeof OriginalBox;
-  Message: typeof OriginalMessage;
-  Button: typeof OriginalButton;
-  PrimaryButton: typeof OriginalPrimaryButton;
-}
-
 export interface DouPassingProps {
   keyName: string;
   items?: DouItems;
   fontSize?: string;
   primaryColor?: string;
   onClickItem?(buttonIndex: number, sendingValue?: any): any;
-  components?: Partial<CustomizableComponent>;
 }
 export interface DouProps {
   keyName: string;
@@ -47,20 +32,31 @@ export interface DouProps {
   douProviderState: ContextValue;
   primaryColor: string;
   onClickItem(buttonIndex: number, sendingValue?: any): any;
-  components?: Partial<CustomizableComponent>;
 }
 
-class RealDou extends React.Component<DouProps> {
+export class DouBase extends React.PureComponent<DouPassingProps> {
+  static displayName = 'Dou';
+
   static defaultProps = {
     fontSize: '14px',
     primaryColor: '#fb9966',
     // tslint:disable-next-line:no-empty
     onClickItem() {},
+    components: {
+      Background: OriginalBackground,
+      Box: OriginalBox,
+      Message: OriginalMessage,
+      ButtonGroup: OriginalButtonGroup,
+      Button: OriginalButton,
+      PrimaryButton: OriginalPrimaryButton,
+    },
   };
 
+  // @ts-ignore
+  props: DouProps & {components: typeof customizableComponents};
   case: HTMLDivElement;
 
-  constructor(props: DouProps) {
+  constructor(props: DouProps & {components: typeof customizableComponents}) {
     super(props);
 
     this.case = document.createElement('div');
@@ -85,30 +81,6 @@ class RealDou extends React.Component<DouProps> {
     return state;
   }
 
-  private hasPropComponent(name: keyof CustomizableComponent) {
-    if (this.props.components === undefined) {
-      return false;
-    }
-
-    if (this.props.components[name] === undefined) {
-      return false;
-    }
-
-    return true;
-  }
-
-  private getPropComponent(name: keyof CustomizableComponent) {
-    if (this.props.components === undefined) {
-      throw new Error('components is empty');
-    }
-
-    if (this.props.components[name] === undefined) {
-      throw new Error('components[name] is empty');
-    }
-
-    return this.props.components[name];
-  }
-
   Background: React.SFC<{
     onClick: Function;
     'aria-hidden': boolean;
@@ -116,42 +88,33 @@ class RealDou extends React.Component<DouProps> {
   }> =
     // @ts-ignore
     React.memo(props => {
-      let Background = componentMap.get('Background');
-      if (this.hasPropComponent('Background')) {
-        Background = this.getPropComponent('Background');
-      }
-
       return (
-        <Background
+        <this.props.components.Background
           onClick={props.onClick}
           aria-hidden={props['aria-hidden']}
           data-font-size={props['data-font-size']}
         >
           {props.children}
-        </Background>
+        </this.props.components.Background>
       );
     });
 
   Box: React.SFC =
     // @ts-ignore
     React.memo(props => {
-      let Box = componentMap.get('Box');
-      if (this.hasPropComponent('Box')) {
-        Box = this.getPropComponent('Box');
-      }
-
-      return <Box>{props.children}</Box>;
+      return (
+        <this.props.components.Box>{props.children}</this.props.components.Box>
+      );
     });
 
   Message: React.SFC =
     // @ts-ignore
     React.memo(props => {
-      let Message = componentMap.get('Message');
-      if (this.hasPropComponent('Message')) {
-        Message = this.getPropComponent('Message');
-      }
-
-      return <Message>{props.children}</Message>;
+      return (
+        <this.props.components.Message>
+          {props.children}
+        </this.props.components.Message>
+      );
     });
 
   Button: React.SFC<{
@@ -163,31 +126,24 @@ class RealDou extends React.Component<DouProps> {
     // @ts-ignore
     React.memo(props => {
       if (props.primary) {
-        let PrimaryButton = componentMap.get('PrimaryButton');
-        if (this.hasPropComponent('PrimaryButton')) {
-          PrimaryButton = this.getPropComponent('PrimaryButton');
-        }
-
         return (
-          <PrimaryButton
+          <this.props.components.PrimaryButton
             className={props.className}
             onClick={props.onClick}
             data-color={props['data-color']}
           >
             {props.children}
-          </PrimaryButton>
+          </this.props.components.PrimaryButton>
         );
       }
 
-      let Button = componentMap.get('Button');
-      if (this.hasPropComponent('Button')) {
-        Button = this.getPropComponent('Button');
-      }
-
       return (
-        <Button className={props.className} onClick={props.onClick}>
+        <this.props.components.Button
+          className={props.className}
+          onClick={props.onClick}
+        >
           {props.children}
-        </Button>
+        </this.props.components.Button>
       );
     });
 
@@ -202,7 +158,7 @@ class RealDou extends React.Component<DouProps> {
       }
 
       return (
-        <ButtonGroup>
+        <this.props.components.ButtonGroup>
           {this.props.items.map((item, i) => {
             const {onClick} = props.ownState.eventFactory(i);
             const className = [];
@@ -222,7 +178,7 @@ class RealDou extends React.Component<DouProps> {
               </this.Button>
             );
           })}
-        </ButtonGroup>
+        </this.props.components.ButtonGroup>
       );
     });
 
@@ -245,70 +201,16 @@ class RealDou extends React.Component<DouProps> {
   }
 }
 
-// export const Dou: React.SFC<DouPassingProps> = props => {
 export class Dou extends React.PureComponent<DouPassingProps> {
-  static resetGlobalComponents(): void {
-    componentMap.set('Background', OriginalBackground);
-    componentMap.set('Box', OriginalBox);
-    componentMap.set('Message', OriginalMessage);
-    componentMap.set('Button', OriginalButton);
-    componentMap.set('PrimaryButton', OriginalPrimaryButton);
-  }
-
-  static set Background(CustomizedBackground: typeof OriginalBackground) {
-    componentMap.set('Background', CustomizedBackground);
-  }
-
-  static set Box(CustomizedBox: typeof OriginalBox) {
-    componentMap.set('Box', CustomizedBox);
-  }
-
-  static set Message(CustomizedMessage: typeof OriginalMessage) {
-    componentMap.set('Message', CustomizedMessage);
-  }
-
-  static set Button(CustomizedButton: typeof OriginalButton) {
-    componentMap.set('Button', CustomizedButton);
-  }
-
-  static set PrimaryButton(
-    CustomizedPrimaryButton: typeof OriginalPrimaryButton,
-  ) {
-    componentMap.set('PrimaryButton', CustomizedPrimaryButton);
-  }
+  static defaultProps = {
+    items: [],
+  };
 
   render() {
-    let items: DouItem[];
-    if (this.props.items === undefined) {
-      items = ja.map((label, i) => {
-        return {
-          label,
-          primary: i === 0,
-          button: true,
-        };
-      });
-    } else if (typeof this.props.items[0] === 'string') {
-      items = (this.props.items as string[]).map((label, i) => {
-        return {
-          label,
-          primary: i === 0,
-          button: true,
-        };
-      });
-    } else {
-      items = this.props.items as DouItem[];
-    }
-
     return (
       <Context.Consumer>
         {state => {
-          return (
-            <RealDou
-              {...{...RealDou.defaultProps, ...this.props}}
-              items={items}
-              douProviderState={state}
-            />
-          );
+          return <DouBase {...this.props as any} douProviderState={state} />;
         }}
       </Context.Consumer>
     );
