@@ -6,6 +6,8 @@ name: Dou
 import {Playground, PropsTable} from 'docz';
 import styled, {css} from 'styled-components';
 import {DouProvider, DouFunctionsConsumer, Dou, withDou, createDou, Background, Box, en, ja} from '.';
+import {MyBox} from './customizable-components.test';
+import {MyDou} from './mydou.test';
 import {MdAccessible} from 'react-icons/md'
 
 ## 日本語
@@ -15,8 +17,6 @@ import {MdAccessible} from 'react-icons/md'
 		const callback = (keyName, buttonIndex, sendingValue) => {
 			console.log('keyName: ', keyName, 'buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
 		}
-
-		console.log(ja);
 
 		return (
 			<DouProvider callback={callback}>
@@ -71,12 +71,6 @@ import {MdAccessible} from 'react-icons/md'
 
 <Playground>
 	{() => {
-		const MyBox = styled(Box)`
-			background: #393939;
-			color: #fff;
-			transition: none !important;
-		`;
-
 		return (
 			<DouProvider>
 				<p>
@@ -99,8 +93,6 @@ import {MdAccessible} from 'react-icons/md'
 
 <Playground>
 	{() => {
-		Dou.resetGlobalComponents();
-
 		return (
 			<DouProvider>
 				<p>
@@ -111,19 +103,8 @@ import {MdAccessible} from 'react-icons/md'
 					</DouFunctionsConsumer>
 				</p>
 
-				<Dou keyName="bar?" onClickItem={(buttonIndex, sendingValue) => {
+				<MyDou keyName="bar?" onClickItem={(buttonIndex, sendingValue) => {
 					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
-				}} components={{
-					Background: styled(Background)`
-						transition: none !important;
-
-						&:before {
-							transition: none !important;
-						}
-					`,
-					Box: styled(Box)`
-						transition: none !important;
-					`
 				}} />
 			</DouProvider>
 		)

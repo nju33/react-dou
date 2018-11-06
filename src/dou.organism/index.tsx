@@ -32,6 +32,7 @@ export interface DouProps {
   douProviderState: ContextValue;
   primaryColor: string;
   onClickItem(buttonIndex: number, sendingValue?: any): any;
+  components: typeof customizableComponents;
 }
 
 export class DouBase extends React.PureComponent<DouPassingProps> {
@@ -42,21 +43,13 @@ export class DouBase extends React.PureComponent<DouPassingProps> {
     primaryColor: '#fb9966',
     // tslint:disable-next-line:no-empty
     onClickItem() {},
-    components: {
-      Background: OriginalBackground,
-      Box: OriginalBox,
-      Message: OriginalMessage,
-      ButtonGroup: OriginalButtonGroup,
-      Button: OriginalButton,
-      PrimaryButton: OriginalPrimaryButton,
-    },
   };
 
   // @ts-ignore
-  props: DouProps & {components: typeof customizableComponents};
+  props: DouProps;
   case: HTMLDivElement;
 
-  constructor(props: DouProps & {components: typeof customizableComponents}) {
+  constructor(props: DouProps) {
     super(props);
 
     this.case = document.createElement('div');
@@ -201,16 +194,42 @@ export class DouBase extends React.PureComponent<DouPassingProps> {
   }
 }
 
-export class Dou extends React.PureComponent<DouPassingProps> {
+export class Dou extends React.PureComponent<
+  DouPassingProps & {components: typeof customizableComponents}
+> {
   static defaultProps = {
+    components: {
+      Background: OriginalBackground,
+      Box: OriginalBox,
+      Message: OriginalMessage,
+      ButtonGroup: OriginalButtonGroup,
+      Button: OriginalButton,
+      PrimaryButton: OriginalPrimaryButton,
+    },
     items: [],
   };
 
+  // @ts-ignore
+  props: DouPassingProps & {components: typeof customizableComponents};
+
   render() {
+    const components = {...customizableComponents, ...this.props.components};
+
+    console.log(customizableComponents);
+    console.log(this.props.components);
+    console.log(this.props);
+    console.log(components);
+
     return (
       <Context.Consumer>
         {state => {
-          return <DouBase {...this.props as any} douProviderState={state} />;
+          return (
+            <DouBase
+              {...this.props as any}
+              components={components}
+              douProviderState={state}
+            />
+          );
         }}
       </Context.Consumer>
     );
