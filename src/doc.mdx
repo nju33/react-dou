@@ -21,7 +21,7 @@ import {MdAccessible} from 'react-icons/md'
 		return (
 			<DouProvider callback={callback}>
 				<DouFunctionsConsumer>
-					{({ask}) => {
+					{({ask, hide}) => {
 						return (
 							<>
 								<p>
@@ -34,15 +34,23 @@ import {MdAccessible} from 'react-icons/md'
 									<button onClick={ask('3', '帰りますか？', {valid: true})}>帰りますか？</button>
 								</p>
 								<p>
-									<button onClick={ask('4', (
-										<div style={{width: '100%', textALign: 'left'}}>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-										</div>
-									), 'foo')}>帰りたい</button>
+									<button onClick={() => {
+											ask('4', (
+												<div style={{width: '100%', textALign: 'left'}}>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+												</div>
+											), 'foo')();
+
+											{/* setTimeout(() => {
+												hide('4')();
+											}, 3000); */}
+									}>
+										帰りたい
+									</button>
 								</p>
 								<Dou keyName="2" items={ja} />
 								<Dou keyName="4" items={[

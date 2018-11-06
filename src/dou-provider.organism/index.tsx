@@ -33,7 +33,7 @@ export class DouProvider extends React.Component<
             ev.preventDefault();
           }
 
-          this.hide(passingKeyName);
+          this.hide(passingKeyName)();
         };
       },
       eventFactory: buttonIndex => ({
@@ -51,7 +51,7 @@ export class DouProvider extends React.Component<
             this.props.callback(keyName, buttonIndex, targetState.payload);
           }
           callback(buttonIndex, targetState.payload);
-          this.hide(keyName);
+          this.hide(keyName)();
         },
       }),
       payload: undefined,
@@ -82,15 +82,6 @@ export class DouProvider extends React.Component<
     });
   }
 
-  hide(keyName: string) {
-    const targetState = this.getDialogState(keyName);
-    targetState.hidden = true;
-    this.state.dialogs.set(keyName, targetState);
-    this.setState({
-      dialogs: this.state.dialogs,
-    });
-  }
-
   regist: ContextValue['_regist'] = (keyName, callback) => {
     this.state.dialogs.set(keyName, this.createInitialState(keyName, callback));
     this.forceUpdate();
@@ -104,9 +95,22 @@ export class DouProvider extends React.Component<
     this.setMessage(keyName, message, sendingValue);
   };
 
+  hide: DouFunctionsContext['hide'] = keyName => ev => {
+    if (ev !== undefined) {
+      ev.preventDefault();
+    }
+
+    const targetState = this.getDialogState(keyName);
+    targetState.hidden = true;
+    this.state.dialogs.set(keyName, targetState);
+    this.setState({
+      dialogs: this.state.dialogs,
+    });
+  };
+
   render() {
     return (
-      <FunctionsContext.Provider value={{ask: this.ask}}>
+      <FunctionsContext.Provider value={{ask: this.ask, hide: this.hide}}>
         <Context.Provider value={this.state}>
           {this.props.children}
         </Context.Provider>
