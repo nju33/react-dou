@@ -3,7 +3,7 @@ import {Flex} from './flex.atom';
 
 const getFontSize = (props: any) => props['data-font-size'];
 
-interface BackgroundProps {
+export interface BackgroundProps {
   'aria-hidden': boolean;
   userCSS?: InterpolationValue[];
 }

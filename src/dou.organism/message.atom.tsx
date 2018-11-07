@@ -7,7 +7,10 @@ export const Message = styled(Flex)`
   justify-content: center;
   align-items: center;
   font-size: 1.2em;
-  margin-bottom: -17px;
   word-wrap: break-word;
   word-break: break-all;
+
+  &[data-has-items='true'] {
+    margin-bottom: -17px;
+  }
 `;

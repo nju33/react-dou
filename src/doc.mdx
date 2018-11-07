@@ -5,9 +5,10 @@ name: Dou
 
 import {Playground, PropsTable} from 'docz';
 import styled, {css} from 'styled-components';
-import {DouProvider, DouFunctionsConsumer, Dou, withDou, Background, Box} from '.';
+import {DouProvider, DouFunctionsConsumer, Dou, withDou, createDou, Background, Box, en, ja} from '.';
+import {MyBox} from './customizable-components.test';
+import {MyDou} from './mydou.test';
 import {MdAccessible} from 'react-icons/md'
-import en from './locales/en';
 
 ## 日本語
 
@@ -20,7 +21,7 @@ import en from './locales/en';
 		return (
 			<DouProvider callback={callback}>
 				<DouFunctionsConsumer>
-					{({ask}) => {
+					{({ask, hide}) => {
 						return (
 							<>
 								<p>
@@ -33,17 +34,25 @@ import en from './locales/en';
 									<button onClick={ask('3', '帰りますか？', {valid: true})}>帰りますか？</button>
 								</p>
 								<p>
-									<button onClick={ask('4', (
-										<div style={{width: '100%', textALign: 'left'}}>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-											<p>帰りたい</p>
-										</div>
-									), 'foo')}>帰りたい</button>
+									<button onClick={() => {
+											ask('4', (
+												<div style={{width: '100%', textALign: 'left'}}>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+													<p>帰りたい</p>
+												</div>
+											), 'foo')();
+
+											setTimeout(() => {
+												hide('4')();
+											}, 3000);
+									}}>
+										帰りたい
+									</button>
 								</p>
-								<Dou keyName="2" />
+								<Dou keyName="2" items={ja} />
 								<Dou keyName="4" items={[
 									{label: '帰りたい1', primary: true},
 									{label: '帰りたい2', button: true, primary: true},
@@ -54,7 +63,7 @@ import en from './locales/en';
 						)
 					}}
 				</DouFunctionsConsumer>
-				<Dou keyName="1" onClickItem={(buttonIndex, sendingValue) => {
+				<Dou keyName="1" items={ja} onClickItem={(buttonIndex, sendingValue) => {
 					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
 				}} />
 				<Dou keyName="3" items={[
@@ -70,12 +79,6 @@ import en from './locales/en';
 
 <Playground>
 	{() => {
-		Dou.Box = styled(Box)`
-			background: #393939;
-			color: #fff;
-			transition: none !important;
-		`;
-
 		return (
 			<DouProvider>
 				<p>
@@ -86,7 +89,9 @@ import en from './locales/en';
 					</DouFunctionsConsumer>
 				</p>
 
-				<Dou keyName="foo?" onClickItem={(buttonIndex, sendingValue) => {
+				<Dou components={{
+					Box: MyBox,
+				}} keyName="foo?" onClickItem={(buttonIndex, sendingValue) => {
 					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
 				}} />
 			</DouProvider>
@@ -96,8 +101,6 @@ import en from './locales/en';
 
 <Playground>
 	{() => {
-		Dou.resetGlobalComponents();
-
 		return (
 			<DouProvider>
 				<p>
@@ -108,19 +111,8 @@ import en from './locales/en';
 					</DouFunctionsConsumer>
 				</p>
 
-				<Dou keyName="bar?" onClickItem={(buttonIndex, sendingValue) => {
+				<MyDou keyName="bar?" onClickItem={(buttonIndex, sendingValue) => {
 					console.log('buttonIndex: ', buttonIndex, 'sendingValue: ', sendingValue);
-				}} components={{
-					Background: styled(Background)`
-						transition: none !important;
-
-						&:before {
-							transition: none !important;
-						}
-					`,
-					Box: styled(Box)`
-						transition: none !important;
-					`
 				}} />
 			</DouProvider>
 		)
@@ -146,7 +138,7 @@ import en from './locales/en';
 						return (
 							<>
 								<button onClick={ask('1', 'Eat hamburgers?')}>Eat hamburgers?</button>
-								<Dou keyName="1" locale={en} />
+								<Dou keyName="1" items={en} />
 							</>
 						)
 					}}
@@ -179,7 +171,7 @@ import en from './locales/en';
 		return (
 			<DouProvider callback={callback}>
 				<ChildWithDou />
-				<Dou keyName="1" />
+				<Dou keyName="1" items={ja} />
 			</DouProvider>
 		)
 	}}
