@@ -5,7 +5,9 @@ name: Dou
 
 import {Playground, PropsTable} from 'docz';
 import styled, {css} from 'styled-components';
-import {DouProvider, DouFunctionsConsumer, Dou, withDou, createDou, Background, Box, en, ja} from '.';
+import {DouProvider, DouFunctionsConsumer, Dou, withDou, Background, Box} from '.';
+import {createDou} from './create-dou';
+import {en, ja} from './locales';
 import {MyBox} from './customizable-components.test';
 import {MyDou} from './mydou.test';
 import {MdAccessible} from 'react-icons/md'
@@ -77,6 +79,8 @@ import {MdAccessible} from 'react-icons/md'
 	}}
 </Playground>
 
+## components プロパティでカスタマイズ
+
 <Playground>
 	{() => {
 		return (
@@ -98,6 +102,8 @@ import {MdAccessible} from 'react-icons/md'
 		)
 	}}
 </Playground>
+
+## `createDou` でカスタマイズ
 
 <Playground>
 	{() => {
