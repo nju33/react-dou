@@ -37,7 +37,7 @@ import {MdAccessible} from 'react-icons/md'
 								</p>
 								<p>
 									<button onClick={() => {
-											ask('4', (
+											const id = ask('4', (
 												<div style={{width: '100%', textALign: 'left'}}>
 													<p>帰りたい</p>
 													<p>帰りたい</p>
@@ -48,14 +48,14 @@ import {MdAccessible} from 'react-icons/md'
 											), 'foo')();
 
 											setTimeout(() => {
-												hide('4')();
+												hide(id, '4')();
 											}, 3000);
 									}}>
 										帰りたい
 									</button>
 								</p>
 								<Dou keyName="2" items={ja} />
-								<Dou keyName="4" items={[
+								<Dou keyName="4" backgroundEvent={false} items={[
 									{label: '帰りたい1', primary: true},
 									{label: '帰りたい2', button: true, primary: true},
 									{label: '帰りたい3'},
