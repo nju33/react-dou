@@ -24,6 +24,7 @@ export interface DouPassingProps {
   fontSize?: string;
   primaryColor?: string;
   onClickItem?(buttonIndex: number, sendingValue?: any): any;
+  backgroundEvent?: boolean;
 }
 export interface DouProps {
   keyName: string;
@@ -33,7 +34,11 @@ export interface DouProps {
   primaryColor: string;
   onClickItem(buttonIndex: number, sendingValue?: any): any;
   components: typeof customizableComponents;
+  backgroundEvent: boolean;
 }
+
+// tslint:disable-next-line:no-empty
+const noop = () => {};
 
 export class DouBase extends React.PureComponent<DouPassingProps> {
   static displayName = 'Dou';
@@ -155,7 +160,7 @@ export class DouBase extends React.PureComponent<DouPassingProps> {
       return (
         <this.props.components.ButtonGroup>
           {this.props.items.map((item, i) => {
-            const {onClick} = props.ownState.eventFactory(i);
+            const {onClick} = props.ownState.eventFactory(props.ownState.id, i);
             const className = [];
             if (item.button) {
               className.push('button');
@@ -179,10 +184,15 @@ export class DouBase extends React.PureComponent<DouPassingProps> {
 
   render() {
     const ownState = this.getOwnState();
+    console.log(ownState)
 
     return createPortal(
       <this.Background
-        onClick={ownState.hide(this.props.keyName)}
+        onClick={
+          this.props.backgroundEvent
+            ? ownState.hide(ownState.id, this.props.keyName)
+            : noop
+        }
         aria-hidden={ownState.hidden}
         data-font-size={this.props.fontSize}
       >
@@ -209,6 +219,7 @@ export class Dou extends React.PureComponent<
       PrimaryButton: OriginalPrimaryButton,
     },
     items: [],
+    backgroundEvent: true,
   };
 
   // @ts-ignore

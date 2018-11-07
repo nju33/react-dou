@@ -6,7 +6,7 @@ export interface DouFunctionsContext {
     message: string | JSX.Element,
     sendingValue?: any,
   ): (ev?: React.MouseEvent<unknown>) => void;
-  hide(keyName: string): (ev?: React.MouseEvent<unknown>) => void;
+  hide(id: string, keyName: string): (ev?: React.MouseEvent<unknown>) => void;
 }
 
 export const FunctionsContext = React.createContext<DouFunctionsContext>({

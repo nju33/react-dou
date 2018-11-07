@@ -1,4 +1,5 @@
 import React from 'react';
+import nanoid from 'nanoid';
 import {FunctionsContext, DouFunctionsContext} from '../functions-context';
 import {Context, DouState, ContextValue} from '../context';
 import {DouProps} from '..';
@@ -25,18 +26,19 @@ export class DouProvider extends React.Component<
     callback: DouProps['onClickItem'],
   ) => DouState) = (keyName, callback) => {
     return {
+      id: 'INITIAL',
       message: '',
       hidden: true,
-      hide: passingKeyName => {
+      hide: (id, passingKeyName) => {
         return ev => {
           if (ev !== undefined) {
             ev.preventDefault();
           }
 
-          this.hide(passingKeyName)();
+          this.hide(id, passingKeyName)();
         };
       },
-      eventFactory: buttonIndex => ({
+      eventFactory: (id, buttonIndex) => ({
         onClick: ev => {
           if (ev !== undefined) {
             ev.preventDefault();
@@ -51,7 +53,7 @@ export class DouProvider extends React.Component<
             this.props.callback(keyName, buttonIndex, targetState.payload);
           }
           callback(buttonIndex, targetState.payload);
-          this.hide(keyName)();
+          this.hide(id, keyName)();
         },
       }),
       payload: undefined,
@@ -68,11 +70,13 @@ export class DouProvider extends React.Component<
   }
 
   setMessage(
+    id: string,
     keyName: string,
     message: string | JSX.Element,
     sendingValue: any,
   ) {
-    const targetState = this.getDialogState(keyName);
+    const targetState = {...this.getDialogState(keyName)};
+    targetState.id = id;
     targetState.message = message;
     targetState.hidden = false;
     targetState.payload = sendingValue;
@@ -92,16 +96,24 @@ export class DouProvider extends React.Component<
       ev.preventDefault();
     }
 
-    this.setMessage(keyName, message, sendingValue);
+    const id = nanoid();
+    this.setMessage(id, keyName, message, sendingValue);
+
+    return id;
   };
 
-  hide: DouFunctionsContext['hide'] = keyName => ev => {
+  hide: DouFunctionsContext['hide'] = (id, keyName) => ev => {
     if (ev !== undefined) {
       ev.preventDefault();
     }
 
     const targetState = this.getDialogState(keyName);
     if (targetState.hidden) {
+      return;
+    }
+
+    console.log(targetState, id);
+    if (targetState.id !== id) {
       return;
     }
 
