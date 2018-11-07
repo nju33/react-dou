@@ -104,7 +104,9 @@ export class DouBase extends React.PureComponent<DouPassingProps> {
     // @ts-ignore
     React.memo(props => {
       return (
-        <this.props.components.Message>
+        <this.props.components.Message
+          data-has-items={this.props.items.length > 0}
+        >
           {props.children}
         </this.props.components.Message>
       );
