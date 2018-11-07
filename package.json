@@ -29,7 +29,7 @@
     "build": "yarn build.main && yarn build.module && yarn build.types"
   },
   "peerDependencies": {
-    "@types/react-dom": "^16.0.0",
+    "react-dom": "^16.0.0",
     "react": "^16.6.0",
     "styled-components": "^4.0.0"
   },
