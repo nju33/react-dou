@@ -184,7 +184,6 @@ export class DouBase extends React.PureComponent<DouPassingProps> {
 
   render() {
     const ownState = this.getOwnState();
-    console.log(ownState)
 
     return createPortal(
       <this.Background

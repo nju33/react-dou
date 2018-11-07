@@ -112,7 +112,6 @@ export class DouProvider extends React.Component<
       return;
     }
 
-    console.log(targetState, id);
     if (targetState.id !== id) {
       return;
     }
