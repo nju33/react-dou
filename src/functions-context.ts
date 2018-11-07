@@ -3,7 +3,10 @@ import React from 'react';
 export interface DouFunctionsContext {
   ask(
     keyName: string,
-    message: string | JSX.Element,
+    message:
+      | string
+      | JSX.Element
+      | ((id: string, keyName: string) => string | JSX.Element),
     sendingValue?: any,
   ): (ev?: React.MouseEvent<unknown>) => void;
   hide(id: string, keyName: string): (ev?: React.MouseEvent<unknown>) => void;

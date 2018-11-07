@@ -97,7 +97,12 @@ export class DouProvider extends React.Component<
     }
 
     const id = nanoid();
-    this.setMessage(id, keyName, message, sendingValue);
+
+    if (typeof message === 'function') {
+      this.setMessage(id, keyName, message(id, keyName), sendingValue);
+    } else {
+      this.setMessage(id, keyName, message, sendingValue);
+    }
 
     return id;
   };

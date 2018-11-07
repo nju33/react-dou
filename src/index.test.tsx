@@ -1,6 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import {DouProvider, Dou, withDou, createDou, Background} from '.';
+import {
+  DouProvider,
+  Dou,
+  withDou,
+  createDou,
+  Background,
+  DouFunctionsProps,
+} from '.';
 
 const MyDou = createDou({
   Background: styled(Background)`
@@ -9,8 +16,19 @@ const MyDou = createDou({
 });
 
 class Test extends React.Component<{id: number}> {
+  // @ts-ignore
+  props: {id: number} & DouFunctionsProps;
+
   render() {
-    return <div>test</div>;
+    return (
+      <div
+        onClick={this.props.dou.ask('foo', (_id, _keyName) => (
+          <div />
+        ))}
+      >
+        test
+      </div>
+    );
   }
 }
 
