@@ -101,6 +101,10 @@ export class DouProvider extends React.Component<
     }
 
     const targetState = this.getDialogState(keyName);
+    if (targetState.hidden) {
+      return;
+    }
+
     targetState.hidden = true;
     this.state.dialogs.set(keyName, targetState);
     this.setState({

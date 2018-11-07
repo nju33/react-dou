@@ -215,11 +215,6 @@ export class Dou extends React.PureComponent<
   render() {
     const components = {...customizableComponents, ...this.props.components};
 
-    console.log(customizableComponents);
-    console.log(this.props.components);
-    console.log(this.props);
-    console.log(components);
-
     return (
       <Context.Consumer>
         {state => {
