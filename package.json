@@ -1,7 +1,7 @@
 {
   "name": "react-dou",
   "description": "A React's yes-no modal component",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "main": "dist/main/index.js",
   "types": "dist/types/index.d.ts",
   "module": "dist/module/index.js",
@@ -29,8 +29,8 @@
     "build": "yarn build.main && yarn build.module && yarn build.types"
   },
   "peerDependencies": {
-    "react-dom": "^16.0.0",
     "react": "^16.6.0",
+    "react-dom": "^16.0.0",
     "styled-components": "^4.0.0"
   },
   "devDependencies": {
