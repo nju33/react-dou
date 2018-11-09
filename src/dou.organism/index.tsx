@@ -24,6 +24,7 @@ export interface DouPassingProps {
   fontSize?: string;
   primaryColor?: string;
   onClickItem?(buttonIndex: number, sendingValue?: any): any;
+  components?: Partial<typeof customizableComponents>;
   backgroundEvent?: boolean;
 }
 export interface DouProps {
