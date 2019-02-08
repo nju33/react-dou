@@ -45,7 +45,7 @@
     "@types/styled-components": "4.0.3",
     "docz": "0.13.7",
     "enzyme": "3.8.0",
-    "enzyme-adapter-react-16": "1.8.0",
+    "enzyme-adapter-react-16": "1.9.1",
     "jest": "23.6.0",
     "prettier": "1.16.4",
     "react": "16.7.0",
