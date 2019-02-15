@@ -1221,10 +1221,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-icons@2.2.6":
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/@types/react-icons/-/react-icons-2.2.6.tgz#02efde5582f4bbfe94e9dc277d48778289d66390"
-  integrity sha512-78XIxWrft+4PGLnG2s4haAiKFTUc3ETq+dh5AElZNj1eAl0lXm+0Calk+qEyiwxXtgv9Fm1J2PNVWDTmEQFNDA==
+"@types/react-icons@2.2.7":
+  version "2.2.7"
+  resolved "https://registry.yarnpkg.com/@types/react-icons/-/react-icons-2.2.7.tgz#ed0a767293ba827f26552504714eebbd80403fc1"
+  integrity sha512-qxc8xtwgDG5Ub/WILU9tZa7zxz2UZqOU4yXbBa+Xg+0LbP031NB9gvf1d/ALvHLGCsCf3WEVttNoW/wc30jn1w==
   dependencies:
     "@types/react" "*"
     "@types/react-icon-base" "*"
