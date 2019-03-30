@@ -60,6 +60,6 @@
   },
   "dependencies": {
     "nanoid": "^2.0.0",
-    "polished": "^2.3.0"
+    "polished": "^3.0.0"
   }
 }
