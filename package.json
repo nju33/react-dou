@@ -56,7 +56,7 @@
     "ts-jest": "23.10.5",
     "ts-node": "7.0.1",
     "tslint": "5.15.0",
-    "typescript": "3.4.1"
+    "typescript": "3.4.2"
   },
   "dependencies": {
     "nanoid": "^2.0.0",
