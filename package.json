@@ -55,7 +55,7 @@
     "styled-components": "4.0.3",
     "ts-jest": "23.10.5",
     "ts-node": "7.0.1",
-    "tslint": "5.20.1",
+    "tslint": "6.1.1",
     "typescript": "3.5.3"
   },
   "dependencies": {
