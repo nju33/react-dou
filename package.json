@@ -37,7 +37,7 @@
     "@geekcojp/prettier-config": "0.3.0",
     "@geekcojp/tslint-config": "0.2.1",
     "@types/enzyme": "3.1.17",
-    "@types/jest": "23.3.14",
+    "@types/jest": "25.2.3",
     "@types/nanoid": "1.2.1",
     "@types/react": "16.4.18",
     "@types/react-dom": "16.8.0",
