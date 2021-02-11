@@ -46,7 +46,7 @@
     "docz": "0.13.7",
     "enzyme": "3.8.0",
     "enzyme-adapter-react-16": "1.15.6",
-    "jest": "23.6.0",
+    "jest": "26.6.3",
     "prettier": "1.19.1",
     "react": "16.13.1",
     "react-dom": "16.13.1",
